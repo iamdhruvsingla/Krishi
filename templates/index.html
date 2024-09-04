@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi</title>
+    <!-- Preconnect and Font Links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1e1e1e;
+            color: #c5c6c7;
+            padding-bottom: 40px; /* Ensure space for the footer */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            color: #66d9ef; /* Green color for the website name */
+            margin-bottom: 20px;
+        }
+
+        .weather-card {
+            background: #282a36;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            color: #f8f8f2;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .weather-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px; /* Space above the weather details */
+        }
+
+        .weather-details div {
+            background: #44475a;
+            border-radius: 8px;
+            padding: 15px; /* Adjusted padding for better spacing */
+            width: 120px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden; /* Ensure content does not overflow */
+        }
+
+        .weather-details .icon {
+            font-size: 2rem;
+            color: #50fa7b;
+            margin-bottom: 10px;
+        }
+
+        .weather-details p {
+            font-size: 0.875rem; /* Smaller font size for better fit */
+            margin: 5px 0;
+            word-break: break-word; /* Prevent text overflow */
+        }
+
+        .weather-details h3 {
+            font-size: 0.875rem;
+            color: #bd93f9;
+            margin-bottom: 5px;
+        }
+
+        /* Plant Data Section */
+        .plant-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .plant-card {
+            background: #44475a;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            width: 100%;
+            max-width: 45%;
+            color: #f8f8f2;
+            text-align: center;
+        }
+
+        .plant-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffb86c;
+        }
+
+        .plant-card p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .plant-images {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .plant-images h2 {
+            color: #ffb86c;
+            margin-bottom: 20px;
+        }
+
+        .plant-images img {
+            width: 100%;
+            max-width: 350px;
+            margin: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Toggle Button */
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #44475a;
+            border: none;
+            color: #f8f8f2;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .weather-details div, .plant-card {
+                max-width: 100%;
+            }
+
+            .plant-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="toggle-button" id="toggleButton">Translate to हिन्दी</button>
+        
+        <h1 id="siteTitle">🌱KRISHI🌱</h1>
+        
+        <div class="weather-card">
+            <h2 id="weatherTitle">Weather Details</h2>
+            <div class="weather-details">
+                {% if weather_data %}
+                    <div>
+                        <i class="fas fa-map-marker-alt icon"></i>
+                        <h3 id="locationTitle">Location</h3>
+                        <p id="locationValue">{{ weather_data['resolvedAddress'] }}</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-thermometer-half icon"></i>
+                        <h3 id="tempTitle">Temperature</h3>
+                        <p id="tempValue">{{ weather_data['currentConditions']['temp'] }} °F</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-tint icon"></i>
+                        <h3 id="humidityTitle">Humidity</h3>
+                        <p id="humidityValue">{{ weather_data['currentConditions']['humidity'] }}%</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-cloud-rain icon"></i>
+                        <h3 id="precipTitle">Precipitation</h3>
+                        <p id="precipValue">{{ weather_data['currentConditions'].get('precip', 'N/A') }} mm</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-umbrella icon"></i>
+                        <h3 id="precipProbTitle">Precipitation Probability</h3>
+                        <p id="precipProbValue">{{ weather_data['currentConditions'].get('precipprob', 'N/A') }}%</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-cloud-sun icon"></i>
+                        <h3 id="conditionTitle">Condition</h3>
+                        <p id="conditionValue">{{ weather_data['currentConditions']['conditions'] }}</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-temperature-low icon"></i>
+                        <h3 id="dewTitle">Dew</h3>
+                        <p id="dewValue">{{ weather_data['currentConditions']['dew'] }}</p>
+                    </div>
+                {% else %}
+                    <p>No weather data available.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="plant-container">
+            <div class="plant-card">
+                <h2 id="plant1Title">Plant 1</h2>
+                <p><i class="fas fa-seedling icon"></i> <span id="plant1Content">Moisture Content: 45%</span></p>
+                <!-- Add more details about Plant 1 if needed -->
+            </div>
+            <div class="plant-card">
+                <h2 id="plant2Title">Plant 2</h2>
+                <p><i class="fas fa-seedling icon"></i> <span id="plant2Content">Moisture Content: 60%</span></p>
+                <!-- Add more details about Plant 2 if needed -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            "en": {
+                "siteTitle": "🌱Krishi🌱",
+                "weatherTitle": "Weather Details",
+                "locationTitle": "Location",
+                "tempTitle": "Temperature",
+                "humidityTitle": "Humidity",
+                "precipTitle": "Precipitation",
+                "precipProbTitle": "Precipitation Probability",
+                "conditionTitle": "Condition",
+                "dewTitle": "Dew",
+                "plant1Title": "Plant 1",
+                "plant1Content": "Moisture Content: 45%",
+                "plant2Title": "Plant 2",
+                "plant2Content": "Moisture Content: 60%",
+                "plantImagesTitle": "Plant Images"
+            },
+            "hi": {
+                "siteTitle": "🌱कृषि🌱",
+                "weatherTitle": "मौसम विवरण",
+                "locationTitle": "स्थान",
+                "tempTitle": "तापमान",
+                "humidityTitle": "आर्द्रता",
+                "precipTitle": "वृष्टि",
+                "precipProbTitle": "वृष्टि की संभावना",
+                "conditionTitle": "स्थिति",
+                "dewTitle": "ओस",
+                "plant1Title": "पौधा 1",
+                "plant1Content": "आर्द्रता सामग्री: 45%",
+                "plant2Title": "पौधा 2",
+                "plant2Content": "आर्द्रता सामग्री: 60%",
+                "plantImagesTitle": "पौधे की छवियाँ"
+            }
+        };
+
+        const toggleButton = document.getElementById('toggleButton');
+        let currentLang = 'en';
+
+        toggleButton.addEventListener('click', () => {
+            currentLang = (currentLang === 'en') ? 'hi' : 'en';
+            updateText();
+            toggleButton.textContent = (currentLang === 'en') ? 'Translate to हिन्दी' : 'Translate to English';
+        });
+
+        function updateText() {
+            document.getElementById('siteTitle').textContent = translations[currentLang]['siteTitle'];
+            document.getElementById('weatherTitle').textContent = translations[currentLang]['weatherTitle'];
+            document.getElementById('locationTitle').textContent = translations[currentLang]['locationTitle'];
+            document.getElementById('tempTitle').textContent = translations[currentLang]['tempTitle'];
+            document.getElementById('humidityTitle').textContent = translations[currentLang]['humidityTitle'];
+            document.getElementById('precipTitle').textContent = translations[currentLang]['precipTitle'];
+            document.getElementById('precipProbTitle').textContent = translations[currentLang]['precipProbTitle'];
+            document.getElementById('conditionTitle').textContent = translations[currentLang]['conditionTitle'];
+            document.getElementById('dewTitle').textContent = translations[currentLang]['dewTitle'];
+            document.getElementById('plant1Title').textContent = translations[currentLang]['plant1Title'];
+            document.getElementById('plant1Content').textContent = translations[currentLang]['plant1Content'];
+            document.getElementById('plant2Title').textContent = translations[currentLang]['plant2Title'];
+            document.getElementById('plant2Content').textContent = translations[currentLang]['plant2Content'];
+            document.getElementById('plantImagesTitle').textContent = translations[currentLang]['plantImagesTitle'];
+        }
+    </script>
+</body>
+</html>
